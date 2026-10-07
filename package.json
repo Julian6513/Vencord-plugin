@@ -1,0 +1,14 @@
+{
+  "name": "mutual-server-finder-tests",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test tests/core.test.ts && node --test tests/ui.test.mjs"
+  },
+  "devDependencies": {
+    "esbuild": "0.28.1",
+    "jsdom": "27.0.0",
+    "react": "19.1.0",
+    "react-dom": "19.1.0"
+  }
+}

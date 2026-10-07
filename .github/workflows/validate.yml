@@ -1,0 +1,42 @@
+name: Validate plugin
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - uses: pnpm/action-setup@v4
+        with:
+          version: '11.9.0'
+      - name: Test membership checks and exports
+        run: |
+          npm ci
+          npm test
+      - name: Check out validated Vencord revision
+        env:
+          VENCORD_REVISION: 718c867256a9d181edc7a534afb296b9bb41ab58
+        run: |
+          git init .vencord
+          git -C .vencord remote add origin https://github.com/Vendicated/Vencord.git
+          git -C .vencord fetch --depth 1 origin "$VENCORD_REVISION"
+          git -C .vencord checkout --detach FETCH_HEAD
+          mkdir -p .vencord/src/userplugins
+          cp -R src/userplugins/mutualServerFinder .vencord/src/userplugins/
+      - name: Install dependencies
+        run: pnpm --dir .vencord install --frozen-lockfile
+      - name: Typecheck
+        run: pnpm --dir .vencord testTsc
+      - name: Lint plugin
+        run: pnpm --dir .vencord exec eslint src/userplugins/mutualServerFinder
+      - name: Build desktop and web
+        run: |
+          pnpm --dir .vencord build
+          pnpm --dir .vencord buildWeb
