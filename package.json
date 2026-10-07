@@ -3,7 +3,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "test": "node --test tests/core.test.ts && node --test tests/ui.test.mjs"
+    "test": "node --test tests/core.test.ts && node --test tests/ui.test.mjs tests/install-macos.test.mjs"
   },
   "devDependencies": {
     "esbuild": "0.28.1",

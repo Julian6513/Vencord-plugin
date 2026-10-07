@@ -45,6 +45,27 @@ The three small nonce-forwarding patches come from Vencord's existing ImplicitRe
 
 No token extraction, direct Discord REST requests, bot-only member-list endpoints, profile-request loops, separate gateway connection, selfbot session, access-control bypass, or rate-limit evasion. Discord still decides what the normal client request may return. A refused, dropped, or incompatible request remains unresolved and stops the run. The five-second spacing is a conservative application pace, not a promise that Discord will accept every request.
 
+## Install on Mac with one command
+
+Install Node.js 24 or newer, then download this repository's ZIP from GitHub and unzip it. In Terminal, from the extracted repository folder, run:
+
+```bash
+bash scripts/install-macos.sh
+```
+
+If you unzipped it in Downloads under the default folder name, you can run this from anywhere:
+
+```bash
+bash ~/Downloads/Vencord-plugin-main/scripts/install-macos.sh
+```
+
+The script checks the Mac tools, prepares the tested Vencord revision in `~/Documents/MutualServerFinder/Vencord`, copies the plugin, runs pnpm through npx, builds Vencord, and opens its installer. It asks you to quit Discord before installing. If Apple's Command Line Tools are missing, it opens their installation prompt; finish that installation and rerun the same command. Node.js must already be installed. No global pnpm install or private-repository Git authentication is needed after downloading the ZIP.
+
+When the installer reports success, reopen Discord, enable **MutualServerFinder** under **User Settings → Vencord → Plugins**, restart Discord, and run `/mutualservers`.
+
+The script leaves other userplugins alone and refuses an existing Vencord checkout with changes to tracked files. To choose another build folder, set `MSF_VENCORD_DIR` before running it. This installer has been syntax-checked and tested with mocked Mac tools; it has not been run against a real Mac Discord installation.
+
+
 ## Install / update on Windows
 
 This repository contains a userplugin, not a standalone Discord bot or a prebuilt Vencord installer. Use [Vencord's custom-plugin instructions](https://docs.vencord.dev/installing/custom-plugins/). Install Git, Node.js 24 or later, and pnpm first.
