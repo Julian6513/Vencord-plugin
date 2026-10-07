@@ -19,7 +19,7 @@ For a 2,000-member server compared with a 40,000-member server, it starts with t
 
 **Compare cache only** makes no member requests. **Stop check** cancels future requests and keeps the results received so far. Closing the modal, disabling the plugin, logging out, losing the gateway connection, or receiving a guild-deletion event also cancels a running check.
 
-Results include avatars when loaded, usernames, global display names, both server nicknames, and user IDs. Search any of those text fields. Results are paginated at 100 rows per page. Click an ID to copy it, or use **Copy IDs**, **Copy results**, **Export JSON**, and **Export CSV**. Copy/export includes all filtered matches across pages, not just the visible page. JSON includes the server IDs, check status, timestamp, candidate coverage, and caveats. CSV contains the member rows; import its user-ID column as text to avoid spreadsheet rounding.
+Results include avatars when loaded, usernames, global display names, both server nicknames, and user IDs. Click **View profile** below a result's username to open Discord's normal profile window in the smaller server's context. Profiles are opened only when clicked, using Discord's existing profile UI. Search any of the result text fields. Results are paginated at 100 rows per page. Click an ID to copy it, or use **Copy IDs**, **Copy results**, **Export JSON**, and **Export CSV**. Copy/export includes all filtered matches across pages, not just the visible page. JSON includes the server IDs, check status, timestamp, candidate coverage, and caveats. CSV contains the member rows; import its user-ID column as text to avoid spreadsheet rounding.
 
 ## What completeness means
 

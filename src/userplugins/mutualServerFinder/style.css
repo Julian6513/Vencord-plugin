@@ -22,7 +22,7 @@
     font: inherit;
     font-weight: 400;
 }
-.msf-body input:focus-visible, .msf-body select:focus-visible, .msf-id:focus-visible { outline: 2px solid var(--blurple-50, #5865f2); outline-offset: 2px; }
+.msf-body input:focus-visible, .msf-body select:focus-visible, .msf-id:focus-visible, .msf-profile:focus-visible { outline: 2px solid var(--blurple-50, #5865f2); outline-offset: 2px; }
 .msf-muted { color: var(--text-muted, #949ba4); font-size: 13px; font-weight: 400; }
 .msf-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
 .msf-summary { background: var(--background-secondary, #2b2d31); border-radius: 8px; padding: 16px; display: flex; flex-direction: column; gap: 10px; }
@@ -36,6 +36,8 @@
 .msf-user { display: flex; align-items: center; gap: 10px; }
 .msf-user img { border-radius: 50%; flex-shrink: 0; }
 .msf-user span { display: block; margin-top: 3px; }
+.msf-profile { cursor: pointer; font: inherit; color: var(--text-link, #00a8fc); border: 0; background: transparent; padding: 0; margin-top: 5px; text-align: left; }
+.msf-profile:hover { text-decoration: underline; }
 .msf-id { cursor: pointer; font: inherit; font-family: monospace; color: var(--text-link, #00a8fc); border: 0; background: transparent; padding: 4px 0; text-align: left; }
 .msf-empty { padding: 20px 8px; }
 .msf-pagination { justify-content: flex-end; font-size: 13px; }

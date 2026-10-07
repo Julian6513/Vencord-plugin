@@ -11,7 +11,7 @@ import ErrorBoundary from "@components/ErrorBoundary";
 import { copyToClipboard } from "@utils/clipboard";
 import { saveFile } from "@utils/web";
 import type { RenderModalProps } from "@vencord/discord-types";
-import { GuildMemberCountStore, GuildMemberStore, GuildStore, Modal, openModal, useEffect, useRef, useState, useStateFromStores } from "@webpack/common";
+import { GuildMemberCountStore, GuildMemberStore, GuildStore, Modal, openModal, openUserProfileModal, useEffect, useRef, useState, useStateFromStores } from "@webpack/common";
 
 import { beginCheck, client, endCheck, getServers } from "./client";
 import { createComparison, exportCsv, exportJson, filterRows, type Report, type Server } from "./core";
@@ -118,6 +118,16 @@ export function FinderModal({ initialA = "", initialB = "", ...modalProps }: Ren
         }
     }
 
+    async function viewProfile(userId: string) {
+        if (!report) return;
+        setNotice("");
+        try {
+            await openUserProfileModal({ userId, guildId: report.seed.id });
+        } catch {
+            if (mounted.current) setNotice("Discord couldn't open that profile. You can still copy the user ID.");
+        }
+    }
+
     return (
         <Modal {...modalProps} size="xl" title="Mutual Server Finder" subtitle="Compare two servers you belong to">
             <div className="msf-body">
@@ -163,7 +173,9 @@ export function FinderModal({ initialA = "", initialB = "", ...modalProps }: Ren
                             <thead><tr><th>User</th><th>Nicknames (smaller / larger)</th><th>User ID</th></tr></thead>
                             <tbody>{visible.map(row => <tr key={row.id}>
                                 <td><div className="msf-user">{row.avatar && <img src={row.avatar} alt="" width="32" height="32" loading="lazy" />}
-                                    <div><strong>{row.displayName}</strong><span className="msf-muted">{row.username ? `@${row.username}` : "Username not loaded"}</span></div></div></td>
+                                    <div><strong>{row.displayName}</strong><span className="msf-muted">{row.username ? `@${row.username}` : "Username not loaded"}</span>
+                                        <button className="msf-profile" aria-label={`View profile of ${row.displayName}`} onClick={() => viewProfile(row.id)}>View profile</button>
+                                    </div></div></td>
                                 <td><div>{row.seedNickname || "—"}</div><div className="msf-muted">{row.targetNickname || "—"}</div></td>
                                 <td><button className="msf-id" title="Copy user ID" onClick={() => copy(row.id, "user ID")}>{row.id}</button></td>
                             </tr>)}</tbody>

@@ -34,6 +34,10 @@ f.listeners.forEach(cb=>cb({chunks}));
 };
 export const Modal=({title,subtitle,children})=>React.createElement('section',{role:'dialog'},React.createElement('h1',null,title),React.createElement('p',null,subtitle),children);
 export const openModal=()=>{};
+export async function openUserProfileModal(options) {
+if(f.profileFails) throw Error('profile unavailable');
+f.profile=options;
+}
 `;
 const virtualModules = {
     "@webpack/common": mockCommon,
@@ -126,6 +130,14 @@ test("picker, results, paging, search, copy, export and cleanup use the actual m
         const search = document.querySelector(".msf-result-search input");
         await input(search, "user105");
         assert.equal(document.querySelectorAll("tbody tr").length, 1);
+        assert.equal(f.profile, undefined);
+        await click("View profile");
+        assert.deepEqual(f.profile, { userId: "105", guildId: "a" });
+        assert.equal(f.requests.length, 1);
+        f.profileFails = true;
+        await click("View profile");
+        assert.match(document.body.textContent, /Discord couldn't open that profile/);
+        f.profileFails = false;
         await click("Copy IDs");
         assert.equal(f.copied, "105");
         await click("Copy results");
