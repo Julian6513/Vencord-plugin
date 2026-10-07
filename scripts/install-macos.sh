@@ -23,7 +23,8 @@ repo_dir="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd -P)"
 plugin_source="$repo_dir/src/userplugins/mutualServerFinder"
 [[ -f "$plugin_source/index.tsx" ]] || fail "Plugin files are missing. Download and unzip the complete repository, then try again."
 
-vencord_dir="${MSF_VENCORD_DIR:-$HOME/Documents/MutualServerFinder/Vencord}"
+# Keep the checkout outside Documents, which may be managed by iCloud Drive.
+vencord_dir="${MSF_VENCORD_DIR:-$HOME/Library/Application Support/MutualServerFinder/Vencord}"
 revision="718c867256a9d181edc7a534afb296b9bb41ab58"
 pnpm_version="11.9.0"
 
@@ -35,15 +36,19 @@ fi
 
 [[ -d "$vencord_dir" ]] || fail "The destination is not a folder. Set MSF_VENCORD_DIR to a different location."
 vencord_dir="$(cd -- "$vencord_dir" && pwd -P)"
+printf 'Checking checkout location…\n'
 checkout_root="$(git -C "$vencord_dir" rev-parse --show-toplevel 2>/dev/null)" || fail "The destination already exists but is not a Vencord checkout. Choose a different MSF_VENCORD_DIR."
 [[ "$checkout_root" == "$vencord_dir" ]] || fail "The destination belongs to another Git checkout. Choose a different MSF_VENCORD_DIR."
+printf 'Checking checkout origin…\n'
 origin="$(git -C "$vencord_dir" remote get-url origin)"
 case "$origin" in
     https://github.com/Vendicated/Vencord|https://github.com/Vendicated/Vencord.git|git@github.com:Vendicated/Vencord.git) ;;
     *) fail "The existing checkout has an unexpected origin. Choose a different MSF_VENCORD_DIR." ;;
 esac
+printf 'Checking for local changes. Git may take a while to read an existing checkout…\n'
 git -C "$vencord_dir" diff --quiet && git -C "$vencord_dir" diff --cached --quiet || fail "The Vencord checkout has changes to tracked files. Save those changes or choose a different MSF_VENCORD_DIR."
 
+printf 'Selecting the tested Vencord revision…\n'
 if ! git -C "$vencord_dir" cat-file -e "$revision^{commit}" 2>/dev/null; then
     git -C "$vencord_dir" fetch --depth 1 origin "$revision"
 fi

@@ -59,7 +59,7 @@ If you unzipped it in Downloads under the default folder name, you can run this 
 bash ~/Downloads/Vencord-plugin-main/scripts/install-macos.sh
 ```
 
-The script checks the Mac tools, prepares the tested Vencord revision in `~/Documents/MutualServerFinder/Vencord`, copies the plugin, runs pnpm through npx, builds Vencord, and opens its installer. It asks you to quit Discord before installing. If Apple's Command Line Tools are missing, it opens their installation prompt; finish that installation and rerun the same command. Node.js must already be installed. No global pnpm install or private-repository Git authentication is needed after downloading the ZIP.
+The script checks the Mac tools, prepares the tested Vencord revision in `~/Library/Application Support/MutualServerFinder/Vencord`, copies the plugin, runs pnpm through npx, builds Vencord, and opens its installer. The build folder is outside Documents, which may be managed by iCloud Drive. An older checkout in Documents is left in place. The installer prints progress for its Git checks, including the local-change scan that can be slow on an existing checkout. It asks you to quit Discord before installing. If Apple's Command Line Tools are missing, it opens their installation prompt; finish that installation and rerun the same command. Node.js must already be installed. No global pnpm install or private-repository Git authentication is needed after downloading the ZIP.
 
 When the installer reports success, reopen Discord, enable **MutualServerFinder** under **User Settings → Vencord → Plugins**, restart Discord, and run `/mutualservers`.
 
